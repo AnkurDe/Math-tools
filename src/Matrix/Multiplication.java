@@ -5,7 +5,7 @@ import static Matrix.Comply.complm;
 
 // To perform matrix multiplication
 final public class Multiplication {
-    public static double[][] Multiply(double[][] A, double[][] B) {
+    public static double[][] multiply(double[][] A, double[][] B) {
         complm(A, B);
         double[][] result = new double[A.length][B[0].length];
         ZeroMatrix.zeros(result);
