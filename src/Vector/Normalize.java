@@ -1,6 +1,6 @@
 package Vector;
 
-import static Vector.Dot.Norm.norm;
+import static Vector.Norm.norm;
 import static Vector.Scale.scale;
 
 public class Normalize {
