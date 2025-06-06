@@ -4,7 +4,6 @@ public final class Augment {
 
     // To be tested
     public static double[][] aug(double[][] A, double[][] B, char operation) {
-        ;
         if (Character.toUpperCase(operation) == 'R') {
             return augRow(A, B);
         } else if (Character.toUpperCase(operation) == 'C') {
