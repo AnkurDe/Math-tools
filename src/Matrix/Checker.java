@@ -2,9 +2,9 @@ package Matrix;
 
 import static Matrix.IsCorrupt.isCorrupt;
 
-// To check if two matrices are corrupted or not
+// To check if two matrices are incompatible or not
 final public class Checker {
-    static void multChecker(double[][] A, double[][] B) {
+    static void checker(double[][] A, double[][] B) {
         if (A.length != B.length || A[0].length != B[0].length) {
             throw new MatrixCorruptException("The operation number of rows or columns of matrix is not the same");
         }
