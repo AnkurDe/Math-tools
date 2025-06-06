@@ -11,7 +11,11 @@ public class GramSchmidtOrthogonalization {
         return scale(u, dot(v,u)/dot(u, u));
     }
 
-    public static double[][] GSO(double[][] matrix) {
+    public static double[][] GSO(double[][] matrix){
+        return transpose(GSOt(matrix));
+    }
+
+    protected static double[][] GSOt(double[][] matrix) {
         if (matrix[0].length == 1) {
             return matrix.clone();
         }
@@ -28,6 +32,6 @@ public class GramSchmidtOrthogonalization {
             }
             ortho[i] = vec;
         }
-        return transpose(ortho);
+        return ortho;
     }
 }
