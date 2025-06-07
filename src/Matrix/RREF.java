@@ -18,6 +18,11 @@ package Matrix;
  * - copy: Deep-copies a matrix to avoid mutating test data.
  */
 final public class RREF {
+    /**
+     * Computes the Row Reduced Echelon Form (RREF) of the given matrix in-place.
+     * @param matrix The matrix to reduce (will be modified).
+     * @return The RREF of the matrix.
+     */
     public static double[][] rref(double[][] matrix) {
         int rows = matrix.length;
         int cols = matrix[0].length;
