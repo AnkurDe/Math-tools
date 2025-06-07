@@ -1,5 +1,7 @@
 package Matrix;
 
+import static Matrix.PrintMatrix.printMat;
+
 // Transpose of matrix
 // Incomplete
 final public class Transpose {
