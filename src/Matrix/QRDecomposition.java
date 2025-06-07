@@ -3,7 +3,7 @@ package Matrix;
 import static Matrix.GramSchmidtOrthogonalization.GSO;
 import static Matrix.Multiplication.multiply;
 import static Matrix.Transpose.transpose;
-import static Matrix.PrintMatrix.printMat;
+//import static Matrix.PrintMatrix.printMat;
 
 public class QRDecomposition {
     public static double[][][] qr(double[][] matrix){
