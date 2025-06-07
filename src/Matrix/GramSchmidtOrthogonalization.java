@@ -29,12 +29,8 @@ public class GramSchmidtOrthogonalization {
             for (int i = 0; i < rows; i++) Q[i][j] = qj[i];
         }
 
-        double[][] orig = transpose(matrix);
-        double[][] ortho = new double[orig.length][orig[0].length];
-
-        // There are orig.length number of vectors
-        for (int i = 0; i < orig.length; i++) {
-            double[] vec = orig[i];
+        return Q;
+    }
 
 //    public static void main(String[] args) {
 //        // Test 1: Standard basis (should return the same matrix)
