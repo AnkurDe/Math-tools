@@ -1,7 +1,6 @@
 package Matrix;
 
-import static Matrix.Transpose.transpose;
-import static Vector.Subtraction.subtract;
+//import static Matrix.PrintMatrix.printMat;
 import static Vector.Dot.dot;
 import static Vector.Scale.scale;
 
