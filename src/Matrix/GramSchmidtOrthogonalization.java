@@ -2,6 +2,7 @@ package Matrix;
 
 //import static Matrix.PrintMatrix.printMat;
 import static Vector.Dot.dot;
+import static Vector.Normalize.normalise;
 import static Vector.Scale.scale;
 import static Vector.Subtraction.subtract;
 
