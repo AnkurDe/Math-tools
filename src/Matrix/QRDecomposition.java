@@ -1,6 +1,6 @@
 package Matrix;
 
-import static Matrix.GramSchmidtOrthonormalization.GSOrthonormalization;
+import static Matrix.GramSchmidtOrthogonalization.GSO;
 import static Matrix.Multiplication.multiply;
 import static Matrix.Transpose.transpose;
 import static Matrix.PrintMatrix.printMat;
