@@ -3,6 +3,7 @@ package Matrix;
 //import static Matrix.PrintMatrix.printMat;
 import static Vector.Dot.dot;
 import static Vector.Scale.scale;
+import static Vector.Subtraction.subtract;
 
 public class GramSchmidtOrthogonalization {
     // Project v on u
