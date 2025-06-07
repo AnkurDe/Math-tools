@@ -4,7 +4,7 @@ import Matrix.MatrixError;
 
 import java.util.stream.IntStream;
 
-import static Vector.Norm.norm;
+//import static Vector.Norm.norm;
 
 public class Dot {
     public static double dot(double[] A, double[] B){
