@@ -6,10 +6,11 @@ import static Vector.Scale.scale;
 import static Vector.Subtraction.subtract;
 
 public class GramSchmidtOrthogonalization {
-    // Project v on u
-    public static double[] proj(double[] v, double[] u) {
-        return scale(u, dot(v,u)/dot(u, u));
-    }
+        // Main method: Gram-Schmidt Orthonormalization
+    public static double[][] GSO(double[][] A) {
+        int rows = A.length;
+        int cols = A[0].length;
+        double[][] Q = new double[rows][cols];
 
     public static double[][] GSO(double[][] matrix){
         return transpose(GSOt(matrix));
