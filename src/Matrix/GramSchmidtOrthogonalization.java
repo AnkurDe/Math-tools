@@ -13,9 +13,17 @@ public class GramSchmidtOrthogonalization {
         int cols = A[0].length;
         double[][] Q = new double[rows][cols];
 
-    public static double[][] GSO(double[][] matrix){
-        return transpose(GSOt(matrix));
-    }
+        for (int j = 0; j < cols; j++) {
+            double[] v = new double[rows];
+            for (int i = 0; i < rows; i++) v[i] = A[i][j];
+
+            for (int k = 0; k < j; k++) {
+                double[] qk = new double[rows];
+                for (int i = 0; i < rows; i++) qk[i] = Q[i][k];
+                double dotProd = dot(qk, v);
+                double[] proj = scale(qk,dotProd);
+                v = subtract(v, proj);
+            }
 
     protected static double[][] GSOt(double[][] matrix) {
         if (matrix[0].length == 1) {
