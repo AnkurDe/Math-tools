@@ -10,6 +10,9 @@ public class Eigen {
         return null;
     }
     public static double[] eigenvalues(double[][] matrix){
+        if (matrix.length != matrix[0].length) {
+            throw new MatrixError("Not a Square matrix");
+        }
         // QR method of finding eigenvalues
         int n = matrix.length;
         double[][] A = new double[n][n];
