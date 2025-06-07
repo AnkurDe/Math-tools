@@ -1,7 +1,7 @@
 package Matrix;
 
 import static Matrix.PrintMatrix.printMat;
-import static Matrix.QRDecomposition.qr;
+import static Matrix.Decomposition.qr;
 import static Matrix.Multiplication.multiply;
 
 // To calculate eigen values and eigen vectors of a matrix
