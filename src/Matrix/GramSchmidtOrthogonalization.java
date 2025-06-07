@@ -25,9 +25,8 @@ public class GramSchmidtOrthogonalization {
                 v = subtract(v, proj);
             }
 
-    protected static double[][] GSOt(double[][] matrix) {
-        if (matrix[0].length == 1) {
-            return matrix.clone();
+            double[] qj = normalise(v);
+            for (int i = 0; i < rows; i++) Q[i][j] = qj[i];
         }
 
         double[][] orig = transpose(matrix);
