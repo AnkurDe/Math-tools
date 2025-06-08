@@ -4,8 +4,9 @@ import static java.util.Arrays.setAll;
 
 public class Scale {
     public static double[] scale(double[] vector, double scalingFactor){
-        setAll(vector, i -> vector[i] * scalingFactor);
-        return vector;
+        return Arrays.stream(vector).map(v -> v * scalingFactor).toArray().clone();
+//        setAll(vector, i -> vector[i] * scalingFactor);
+//        return vector;
     }
 
     // Test cases for scale function
