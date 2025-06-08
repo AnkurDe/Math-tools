@@ -6,9 +6,10 @@ import static Matrix.Multiplication.multiply;
 
 // To calculate eigen values and eigen vectors of a matrix
 public class Eigen {
-    public static double[][] eigen(double[][] matrix) {
+    public static double[][] eigenvectors(double[][] matrix) {
         return null;
     }
+
     public static double[] eigenvalues(double[][] matrix){
         if (matrix.length != matrix[0].length) {
             throw new MatrixError("Not a Square matrix");
