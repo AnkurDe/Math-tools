@@ -1,6 +1,8 @@
 package Vector;
 
-import static java.util.Arrays.setAll;
+import java.util.Arrays;
+
+//import static Vector.PrintVec.printVec;
 
 public class Scale {
     public static double[] scale(double[] vector, double scalingFactor){
