@@ -3,7 +3,7 @@ package Matrix;
 import static Matrix.PrintMatrix.printMat;
 
 // Transpose of matrix
-// Incomplete
+// COMPLETE
 final public class Transpose {
     public static double[][] transpose(double[][] input) {
         double[][] result = new double[input[0].length][input.length];

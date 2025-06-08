@@ -1,19 +1,13 @@
 package Matrix;
 
+/*
+* MAYBE MARKED FOR DELETION
+* */
+
 public class Matrix {
     // Addition
     public static double[][] add(double[][] A, double[][] B) {
         return Addition.Add(A, B);
-    }
-
-    // Checking
-    public static void check(double[][] A, double[][] B) {
-        Checker.checker(A, B);
-    }
-
-    // Compliance checks
-    public static void checkMultiplication(double[][] A, double[][] B) {
-        Comply.complm(A, B);
     }
 
     public static boolean checkAddition(double[][] A, double[][] B) {
@@ -66,7 +60,7 @@ public class Matrix {
 
     // Multiplication
     public static double[][] multiply(double[][] A, double[][] B) {
-        return Multiplication.Multiply(A, B);
+        return Multiplication.multiply(A, B);
     }
 
     // Matrix Printing
@@ -106,13 +100,13 @@ public class Matrix {
 
     // Zero Matrix
     public static double[][] zeros(int rows, int cols) {
-        return ZeroMatrix.Zeros(rows, cols);
+        return ZeroMatrix.zeros(rows, cols);
     }
 
     public static double[][] zeros(double[][] A) {
-        return ZeroMatrix.Zeros(A);
+        return ZeroMatrix.zeros(A);
     }
     public static double[][] zeros(int rows, int cols, double[][] A) {
-        return ZeroMatrix.Zeros(rows, cols);
+        return ZeroMatrix.zeros(rows, cols);
     }
 }

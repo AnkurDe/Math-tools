@@ -1,14 +1,17 @@
 package Vector;
 
-import static java.util.Arrays.setAll;
+import java.util.Arrays;
+
+//import static Vector.PrintVec.printVec;
 
 public class Scale {
     public static double[] scale(double[] vector, double scalingFactor){
-        setAll(vector, i -> vector[i] * scalingFactor);
-        return vector;
+        return Arrays.stream(vector).map(v -> v * scalingFactor).toArray().clone();
+//        setAll(vector, i -> vector[i] * scalingFactor);
+//        return vector;
     }
-//
-//    // Test cases for scale function
+
+    // Test cases for scale function
 //    public static void main(String[] args) {
 //        // Test 1: Scale by 2
 //        double[] v1 = {1, 2, 3};
@@ -39,12 +42,5 @@ public class Scale {
 //        double[] r5 = scale(v5.clone(), 0.5);
 //        System.out.print("Test 5: ");
 //        printVec(r5);
-//    }
-//
-//    private static void printVec(double[] v) {
-//        for (double d : v) {
-//            System.out.printf("%.2f ", d);
-//        }
-//        System.out.println();
 //    }
 }
