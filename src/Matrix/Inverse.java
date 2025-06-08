@@ -2,7 +2,7 @@ package Matrix;
 
 import static Matrix.Augment.aug;
 import static Matrix.Identity.eye;
-import static Matrix.PrintMatrix.printMat;
+//import static Matrix.PrintMatrix.printMat;
 
 final public class Inverse
 {
