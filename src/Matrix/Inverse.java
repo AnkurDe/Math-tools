@@ -2,7 +2,7 @@ package Matrix;
 
 import static Matrix.Augment.aug;
 import static Matrix.Identity.eye;
-import static Matrix.PrintMatrix.printMat;
+//import static Matrix.PrintMatrix.printMat;
 
 final public class Inverse
 {
@@ -67,32 +67,32 @@ final public class Inverse
         return inverse;
     }
 
-    public static void main(String[] args) {
-        // Full rank matrix
-        System.out.println("Inverse of 2x2 matrix:");
-        printMat(inv(new double[][]{
-                {2,3},
-                {4,5},
-        }));
-
-        // Not full rank matrix (should throw)
-        try {
-            System.out.println("Inverse of singular 3x3 matrix:");
-            printMat(inv(new double[][]{
-                    {2, 3, 1},
-                    {4, 6, 2},
-                    {1, 1.5, 0.5}
-            }));
-        } catch (MatrixError e) {
-            System.out.println("Not invertible");
-        }
-
-        // Full rank 3x3 matrix
-        System.out.println("Inverse of 3x3 matrix:");
-        printMat(inv(new double[][]{
-                {2,3,1},
-                {4,5,1},
-                {1,1,2}
-        }));
-    }
+//    public static void main(String[] args) {
+//        // Full rank matrix
+//        System.out.println("Inverse of 2x2 matrix:");
+//        printMat(inv(new double[][]{
+//                {2,3},
+//                {4,5},
+//        }));
+//
+//        // Not full rank matrix (should throw)
+//        try {
+//            System.out.println("Inverse of singular 3x3 matrix:");
+//            printMat(inv(new double[][]{
+//                    {2, 3, 1},
+//                    {4, 6, 2},
+//                    {1, 1.5, 0.5}
+//            }));
+//        } catch (MatrixError e) {
+//            System.out.println("Not invertible");
+//        }
+//
+//        // Full rank 3x3 matrix
+//        System.out.println("Inverse of 3x3 matrix:");
+//        printMat(inv(new double[][]{
+//                {2,3,1},
+//                {4,5,1},
+//                {1,1,2}
+//        }));
+//    }
 }
