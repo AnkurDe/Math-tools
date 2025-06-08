@@ -6,11 +6,7 @@ import static Matrix.Transpose.transpose;
 //import static Matrix.PrintMatrix.printMat;
 
 public class QRDecomposition {
-    public static double[][][] qr(double[][] matrix){
-        double[][] Q = GSO(matrix);
-        double[][] R = multiply(transpose(Q), matrix);
-        return new double[][][]{Q, R};
-    }
+
 
 //    public static void main(String[] args) {
 //        // Test 1: 2x2 identity matrix
