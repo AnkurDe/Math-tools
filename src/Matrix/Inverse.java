@@ -67,6 +67,26 @@ final public class Inverse
         return inverse;
     }
 
+    public static double[][] rightInv(double[][] matrix){
+        try{
+            return multiply(transpose(matrix), inv(multiply(matrix, transpose(matrix))));
+        } catch (MatrixError _){
+            throw new MatrixError("Right Inverse does not exist");
+        }
+    }
+
+    public static double[][] leftInv(double[][] matrix){
+        try {
+            return multiply(inv(multiply(transpose(matrix), matrix)),transpose(matrix));
+        } catch (MatrixError _){
+            throw new MatrixError("Left inverse does not exist");
+        }
+    }
+
+    public static double[][] pinv(double[][] matrix){
+        return null;
+    }
+
 //    public static void main(String[] args) {
 //        // Full rank matrix
 //        System.out.println("Inverse of 2x2 matrix:");
