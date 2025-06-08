@@ -1,12 +1,14 @@
 package Matrix;
 
 //import static Matrix.PrintMatrix.printMat;
-import static Matrix.Comply.complm;
 
 // To perform matrix multiplication
 final public class Multiplication {
     public static double[][] multiply(double[][] A, double[][] B) {
-        complm(A, B);
+        // Correct dimension check: columns of A == rows of B
+        if (A[0].length != B.length) {
+            throw new DimensionErrorException("The matrices are not compatible for multiplication");
+        }
         double[][] result = new double[A.length][B[0].length];
         ZeroMatrix.zeros(result);
         //rows
