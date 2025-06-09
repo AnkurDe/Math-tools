@@ -86,7 +86,11 @@ final public class Inverse
     }
 
     public static double[][] pinv(double[][] matrix){
-        return null;
+        try {
+            return rightInv(matrix);
+        } catch (MatrixError _) {
+            return leftInv(matrix);
+        }
     }
 
 //    public static void main(String[] args) {
