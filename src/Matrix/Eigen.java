@@ -88,7 +88,7 @@ public class Eigen {
                 break;
         }
         // Return [eigenvectors (columns) | eigenvalues (diagonal matrix)]
-        return new double[][][]{diag(QQ), Ak};
+        return new double[][][]{QQ, diag(Ak)};
     }
 
 //    public static void main(String[] args) {
