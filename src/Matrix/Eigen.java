@@ -1,95 +1,147 @@
 package Matrix;
 
+import static Matrix.Copy.copy;
+import static Matrix.Diagonal.diag;
+import static Matrix.Identity.eye;
+import static Matrix.IsConverged.isConverged;
+import static Matrix.IsSquare.isSquare;
 import static Matrix.PrintMatrix.printMat;
 import static Matrix.Decomposition.qr;
 import static Matrix.Multiplication.multiply;
 
-// To calculate eigen values and eigen vectors of a matrix
+/**
+ * Utility class for calculating eigenvalues and eigenvectors of a square matrix using the QR algorithm.
+ *
+ * <p>
+ * The main method {@code eig} returns both the eigenvectors and the eigenvalues (in diagonal form) of a matrix.
+ * The QR algorithm is used to iteratively decompose the matrix and accumulate the eigenvectors.
+ * </p>
+ *
+ * <p>
+ * Usage example:
+ * <pre>
+ * double[][] matrix = {
+ *     {2, 1},
+ *     {1, 2}
+ * };
+ * double[][][] result = Eigen.eig(matrix);
+ * double[][] eigenvectors = result[0];
+ * double[][] eigenvaluesDiagonal = result[1];
+ * </pre>
+ * </p>
+ *
+ * <p>
+ * Note: The matrix must be square. If not, a {@link MatrixError} is thrown.
+ * </p>
+ */
 public class Eigen {
-    public static double[][] eigenvectors(double[][] matrix) {
-        return null;
+
+    /**
+     * Computes the eigenvectors and eigenvalues of a square matrix using the QR algorithm.
+     *
+     * @param matrix The input square matrix.
+     * @return A 3D array: [0] = eigenvectors (columns), [1] = eigenvalues in diagonal matrix form.
+     * @throws MatrixError if the input is not a square matrix.
+     */
+    public static double[][][] eig(double[][] matrix) {
+        return eig(matrix, 1000000);
     }
 
-    public static double[] eigenvalues(double[][] matrix){
-        if (matrix.length != matrix[0].length) {
-            throw new MatrixError("Not a Square matrix");
+    /**
+     * Computes the eigenvectors and eigenvalues of a square matrix using the QR algorithm,
+     * with a specified maximum number of iterations.
+     *
+     * @param matrix The input square matrix.
+     * @param iterations The maximum number of QR iterations to perform.
+     * @return A 3D array: [0] = eigenvectors (columns), [1] = eigenvalues in diagonal matrix form.
+     * @throws MatrixError if the input is not a square matrix.
+     */
+    public static double[][][] eig(double[][] matrix, int iterations) {
+        // To check if it is a square matrix or not
+        if (!isSquare(matrix)) {
+            throw new MatrixError("Not a square matrix");
         }
-        // QR method of finding eigenvalues
-        int n = matrix.length;
-        double[][] A = new double[n][n];
-        // Copy input matrix to avoid mutation
-        for (int i = 0; i < n; i++)
-            System.arraycopy(matrix[i], 0, A[i], 0, n);
 
-        int maxIter = 1000;
-        double tol = 1e-10;
-        for (int iter = 0; iter < maxIter; iter++) {
-            double[][][] qrResult = qr(A);
-            double[][] Q = qrResult[0];
-            double[][] R = qrResult[1];
-            A = multiply(R, Q);
+        // Ak -> starts working like A
+        double[][] Ak = copy(matrix);
+        // Accumulates Q matrices -> eigenvectors
+        double[][] QQ = eye(matrix);
 
-            // Check for convergence (off-diagonal elements are small)
-            double offDiag = 0.0;
-            for (int i = 0; i < n; i++)
-                for (int j = 0; j < n; j++)
-                    if (i != j) offDiag += Math.abs(A[i][j]);
-            if (offDiag < tol) break;
+        double[][] prevAk;
+
+        for (int i = 0; i < iterations; i++) {
+            // Save current Ak to be compared later
+            prevAk = copy(Ak);
+
+            // Perform QR Decomposition
+            double[][][] qr = qr(Ak);
+            double[][] Q = qr[0];
+            double[][] R = qr[1];
+
+            // Ak -> Ak+1
+            Ak = multiply(R, Q);
+            // Accumulate eigenvectors with formulae -> QQ = QQ*Q
+            QQ = multiply(QQ, Q);
+
+            // In case of early convergence early stopping saves computation
+            if (isConverged(Ak, prevAk, 1e-9))
+                break;
         }
-        double[] eigenvalues = new double[n];
-        for (int i = 0; i < n; i++)
-            eigenvalues[i] = A[i][i];
-        return eigenvalues;
+        // Return [eigenvectors (columns) | eigenvalues (diagonal matrix)]
+        return new double[][][]{diag(QQ), Ak};
     }
 
-    public static void main(String[] args) {
-        // Test 1: 2x2 identity matrix
-        double[][] matrix1 = {
-            {1, 0},
-            {0, 1}
-        };
-        runTest(matrix1, "Test 1: 2x2 Identity Matrix");
-
-        // Test 2: 2x2 diagonal matrix
-        double[][] matrix2 = {
-            {3, 0},
-            {0, 2}
-        };
-        runTest(matrix2, "Test 2: 2x2 Diagonal Matrix");
-
-        // Test 3: 2x2 symmetric matrix
-        double[][] matrix3 = {
-            {2, 1},
-            {1, 2}
-        };
-        runTest(matrix3, "Test 3: 2x2 Symmetric Matrix");
-
-        // Test 4: 3x3 matrix
-        double[][] matrix4 = {
-            {6, 2, 1},
-            {2, 3, 1},
-            {1, 1, 1}
-        };
-        runTest(matrix4, "Test 4: 3x3 Matrix");
-
-        // Test 5: 3x3 matrix with repeated eigenvalues
-        double[][] matrix5 = {
-            {2, 1, 0},
-            {1, 2, 0},
-            {0, 0, 3}
-        };
-        runTest(matrix5, "Test 5: 3x3 Matrix with Repeated Eigenvalues");
-    }
-
-    private static void runTest(double[][] matrix, String testName) {
-        System.out.println(testName);
-        System.out.println("Matrix:");
-        printMat(matrix);
-        double[] evals = eigenvalues(matrix);
-        System.out.print("Eigenvalues: ");
-        for (double v : evals) {
-            System.out.printf("%.6f ", v);
-        }
-        System.out.println("\n-----------------------------");
-    }
+//    public static void main(String[] args) {
+//        // Test 1: 2x2 identity matrix
+//        double[][] matrix1 = {
+//            {1, 0},
+//            {0, 1}
+//        };
+//        runTestWithVectors(matrix1, "Test 1: 2x2 Identity Matrix");
+//
+//        // Test 2: 2x2 diagonal matrix
+//        double[][] matrix2 = {
+//            {3, 0},
+//            {0, 2}
+//        };
+//        runTestWithVectors(matrix2, "Test 2: 2x2 Diagonal Matrix");
+//
+//        // Test 3: 2x2 symmetric matrix
+//        double[][] matrix3 = {
+//            {2, 1},
+//            {1, 2}
+//        };
+//        runTestWithVectors(matrix3, "Test 3: 2x2 Symmetric Matrix");
+//
+//        // Test 4: 3x3 matrix
+//        double[][] matrix4 = {
+//            {6, 2, 1},
+//            {2, 3, 1},
+//            {1, 1, 1}
+//        };
+//        runTestWithVectors(matrix4, "Test 4: 3x3 Matrix");
+//
+//        // Test 5: 3x3 matrix with repeated eigenvalues
+//        double[][] matrix5 = {
+//            {2, 1, 0},
+//            {1, 2, 0},
+//            {0, 0, 3}
+//        };
+//        runTestWithVectors(matrix5, "Test 5: 3x3 Matrix with Repeated Eigenvalues");
+//    }
+//
+//    private static void runTestWithVectors(double[][] matrix, String testName) {
+//        System.out.println(testName);
+//        System.out.println("Matrix:");
+//        printMat(matrix);
+//        double[][][] e = eig(matrix);
+//        double[][] evals = e[1];
+//        System.out.println("\nEigenvalues: ");
+//        printMat(evals);
+//        System.out.println();
+//        double[][] evecs = e[0];
+//        System.out.println("Eigenvectors (columns):");
+//        printMat(evecs);
+//        System.out.println("-----------------------------");
+//    }
 }
