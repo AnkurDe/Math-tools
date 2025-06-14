@@ -3,7 +3,7 @@ package Matrix;
 //import static Matrix.PrintMatrix.printMat;
 
 // To perform matrix multiplication
-final public class Multiplication {
+final public class Multiplication{
     public static double[][] multiply(double[][] A, double[][] B) {
         // Correct dimension check: columns of A == rows of B
         if (A[0].length != B.length) {

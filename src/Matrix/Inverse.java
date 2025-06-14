@@ -85,8 +85,22 @@ final public class Inverse
         }
     }
 
+    /**
+     * Computes the Moore-Penrose pseudoinverse for full row or full column rank matrices.
+     * For full row rank (rows <= cols): returns right inverse.
+     * For full column rank (rows >= cols): returns left inverse.
+     * For general matrices (including rank-deficient), a full SVD-based pseudoinverse is required.
+     * @param matrix The matrix to pseudoinvert.
+     * @return The pseudoinverse matrix.
+     */
     public static double[][] pinv(double[][] matrix){
-        return null;
+        try {
+            // Try right inverse first (for full row rank, m <= n)
+            return rightInv(matrix);
+        } catch (MatrixError _) {
+            // If right inverse fails, try left inverse (for full column rank, m >= n)
+            return leftInv(matrix);
+        }
     }
 
 //    public static void main(String[] args) {
