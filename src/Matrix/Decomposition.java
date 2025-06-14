@@ -5,7 +5,6 @@ import static Matrix.Multiplication.multiply;
 import static Matrix.PrintMatrix.printMat;
 import static Matrix.Transpose.transpose;
 import static Matrix.Eigen.eig;
-import static Matrix.Diagonal.diag;
 
 public class Decomposition {
     public static double[][][] svd(double[][] A) {
