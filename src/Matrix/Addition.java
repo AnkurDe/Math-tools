@@ -4,7 +4,7 @@ import static Matrix.PrintMatrix.printMat;
 
 // For performing Addition
 final public class Addition {
-    public static double[][] Add(double[][] A, double[][] B) {
+    public static double[][] addition(double[][] A, double[][] B) {
 
         if (A.length != B.length) {
             throw new MatrixCorruptException("Mismatch in number of rows of matrices");
@@ -34,7 +34,7 @@ final public class Addition {
             {7, 8}
         };
         System.out.println("Test 1: Correct addition");
-        double[][] sum = Add(A, B);
+        double[][] sum = addition(A, B);
         printMat(sum);
         // Expected:
         // 6.0 8.0
@@ -46,7 +46,7 @@ final public class Addition {
         };
         try {
             System.out.println("Test 2: Mismatched rows");
-            Add(A, C);
+            addition(A, C);
         } catch (Exception e) {
             System.out.println("Caught exception: " + e.getMessage());
             // Expected: Mismatch in number of rows of matrices
@@ -59,7 +59,7 @@ final public class Addition {
         };
         try {
             System.out.println("Test 3: Mismatched columns");
-            Add(A, D);
+            addition(A, D);
         } catch (Exception e) {
             System.out.println("Caught exception: " + e.getMessage());
             // Expected: Mismatch in number of columns of matrices

@@ -4,7 +4,7 @@ package Matrix;
 
 // For performing subtraction
 final public class Subtraction {
-    public static double[][] sub(double[][] A, double[][] B) {
+    public static double[][] subtract(double[][] A, double[][] B) {
 
         if (A.length != B.length) {
             throw new MatrixCorruptException("Mismatch in number of rows of matrices");
@@ -31,7 +31,7 @@ final public class Subtraction {
 //                {7, 8}
 //        };
 //        System.out.println("Test 1: Correct addition");
-//        double[][] sum = sub(A, B);
+//        double[][] sum = subtract(A, B);
 //        printMat(sum);
 //        // Expected:
 //        // 6.0 8.0
@@ -43,7 +43,7 @@ final public class Subtraction {
 //        };
 //        try {
 //            System.out.println("Test 2: Mismatched rows");
-//            sub(A, C);
+//            subtract(A, C);
 //        } catch (Exception e) {
 //            System.out.println("Caught exception: " + e.getMessage());
 //            // Expected: Mismatch in number of rows of matrices
@@ -56,7 +56,7 @@ final public class Subtraction {
 //        };
 //        try {
 //            System.out.println("Test 3: Mismatched columns");
-//            sub(A, D);
+//            subtract(A, D);
 //        } catch (Exception e) {
 //            System.out.println("Caught exception: " + e.getMessage());
 //            // Expected: Mismatch in number of columns of matrices
