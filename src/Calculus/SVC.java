@@ -175,35 +175,6 @@ final public class SVC {
 // INCOMPLETE
     double*
 
-    Taylor(double val, int order, double (*function)(double))
-
-    {
-        //
-        double *tlr;
-        tlr = ( double*)malloc(order * sizeof( double));
-        return NULL;
-    }
-
-
-    // INCOMPLETE
-    void print_taylor(double val, int order, double (*function)(double)) {
-        //
-        for (int i = 0; i < order; i++) {
-            std::cout << "((x^" << i << ")/" << differentiate(val, i, function) / factorial(i) << ")" << std::endl;
-        }
-
-    }
-
-
-    // INCOMPLETE
-    double Taylor_eval() {
-        return 0;
-    }
-
-
-// INCOMPLETE
-    double*
-
     McLaurin() {
         //
         return nullptr;
