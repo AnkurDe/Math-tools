@@ -1,5 +1,8 @@
 package Calculus;
 
+import FunctionDefinations.ScalarOutput.FunctionMultipleVariable;
+import FunctionDefinations.ScalarOutput.FunctionSingleVariable;
+
 import static java.lang.Math.abs;
 import static java.lang.Math.min;
 
@@ -149,6 +152,22 @@ final public class SVC {
             result = result * i;
         }
         return result;
+    }
+
+    public static double[] taylor(final FunctionSingleVariable fn, final double point, final int order) {
+        double[] coefficients = new double[order+1];
+        coefficients[0] = fn.function(point);
+
+        double factorial = 1.0;
+        for (int ordersCalculated = 1; ordersCalculated <= order; ordersCalculated++) {
+            factorial *= ordersCalculated;
+            coefficients[ordersCalculated] = differentiate(point, ordersCalculated, fn) / factorial;
+        }
+        return coefficients;
+    }
+
+    public static double[] mcLurian(final FunctionSingleVariable fn, final int order) {
+        return taylor(fn, 0.0, order);
     }
 
     /*
