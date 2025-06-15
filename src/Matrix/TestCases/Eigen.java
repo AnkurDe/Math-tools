@@ -1,17 +1,8 @@
-package Matrix;
+package Matrix.TestCases;
 
-import static Matrix.Addition.addition;
-import static Matrix.Copy.copy;
-import static Matrix.Diagonal.diag;
-import static Matrix.Identity.eye;
-import static Matrix.IsConverged.isConverged;
-import static Matrix.IsSquare.isSquare;
-import static Matrix.PrintMatrix.printMat;
-import static Matrix.Decomposition.qr;
-import static Matrix.Multiplication.multiply;
-import static Matrix.Scale.scale;
-import static Matrix.Subtraction.subtract;
-import static Matrix.Transpose.transpose;
+import Matrix.MatrixError;
+
+import static Matrix.Operations.*;
 
 /**
  * Utility class for calculating eigenvalues and eigenvectors of a square matrix using the QR algorithm.
@@ -39,67 +30,6 @@ import static Matrix.Transpose.transpose;
  * </p>
  */
 public class Eigen {
-
-    /**
-     * Computes the eigenvectors and eigenvalues of a square matrix using the QR algorithm.
-     *
-     * @param matrix The input square matrix.
-     * @return A 3D array: [0] = eigenvectors (columns), [1] = eigenvalues in diagonal matrix form.
-     * @throws MatrixError if the input is not a square matrix.
-     */
-    public static double[][][] eig(double[][] matrix) {
-        return eig(matrix, 10000000);
-    }
-
-    /**
-     * Computes the eigenvectors and eigenvalues of a square matrix using the QR algorithm,
-     * with a specified maximum number of iterations.
-     *
-     * @param matrix The input square matrix.
-     * @param iterations The maximum number of QR iterations to perform.
-     * @return A 3D array: [0] = eigenvectors (columns), [1] = eigenvalues in diagonal matrix form.
-     * @throws MatrixError if the input is not a square matrix.
-     */
-    public static double[][][] eig(double[][] matrix, int iterations) {
-        // To check if it is a square matrix or not
-        if (!isSquare(matrix)) {
-            throw new MatrixError("Not a square matrix");
-        }
-
-        // Ak -> starts working like A
-        double[][] Ak = copy(matrix);
-        // Accumulates Q matrices -> eigenvectors
-        double[][] QQ = eye(matrix);
-
-        final int n = matrix.length;
-        double[][] prevAk;
-
-        for (int i = 0; i < iterations; i++) {
-            // Save current Ak to be compared later
-            prevAk = copy(Ak);
-
-            double s = Ak[n - 1][n - 1];
-
-            double[][] smult = scale(s, eye(matrix));
-
-            // Perform QR Decomposition
-            double[][][] qr = qr(subtract(Ak, smult));
-            double[][] Q = qr[0];
-            double[][] R = qr[1];
-
-            // Ak -> Ak+1
-            Ak = addition(multiply(R, Q), smult);
-            // Accumulate eigenvectors with formulae -> QQ = QQ*Q
-            QQ = multiply(QQ, Q);
-
-            // In case of early convergence early stopping saves computation
-            if (isConverged(Ak, prevAk, 1e-9))
-                break;
-        }
-        // Return [eigenvectors (columns) | eigenvalues (diagonal matrix)]
-        return new double[][][]{QQ, diag(Ak)};
-    }
-
     public static void main(String[] args) {
         // Test 1: 2x2 identity matrix
         double[][] matrix1 = {

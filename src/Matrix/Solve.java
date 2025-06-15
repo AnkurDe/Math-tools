@@ -1,8 +1,8 @@
 package Matrix;
 
-import static Matrix.Inverse.inv;
-import static Matrix.Multiplication.multiply;
-import static Matrix.Transpose.transpose;
+import static Matrix.Operations.inv;
+import static Matrix.Operations.multiply;
+import static Matrix.Operations.transpose;
 
 // To solve a system of linear equations
 final public class Solve {
