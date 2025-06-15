@@ -1,9 +1,12 @@
 package Calculus;
 
+import FunctionDefinations.ScalarOutput.FunctionMultipleVariable;
+import FunctionDefinations.ScalarOutput.FunctionSingleVariable;
+
 import static java.lang.Math.abs;
 import static java.lang.Math.min;
 
-public class SVC {
+final public class SVC {
     // Method to perform Runge-Kutta method order 4
     public static double stepSize = 0.000001;
     public static double tolerance = 0.000001;
@@ -17,7 +20,7 @@ public class SVC {
     // y0 is initial value
     // t is final time
     // fn is the function to be solved
-    public final static double RK4(double t0, double y0, double t, Function fn) {
+    public static double RK4(double t0, final double y0, final double t, final FunctionMultipleVariable fn) {
         double y = y0;
         while (t0 < t) {
             double k1 = fn.function(t0, y);
@@ -36,7 +39,7 @@ public class SVC {
     // y0 is initial value
     // t is final time
     // fn is the function to be solved
-    public final static double RK5(double t0, double y0, double t, Function fn) {
+    public static double RK5(double t0, final double y0, final double t, final FunctionMultipleVariable fn) {
         double step = stepSize;
         int n = (int) ((t - t0) / step);
 
@@ -71,7 +74,7 @@ public class SVC {
 
     // INCOMPLETE
     // Uses either of RK4 or RK5 method based on accuracy difference
-    public final static double ode45(double t0, double y0, double t, Function fn) {
+    public static double ode45(final double t0, final double y0, double t, final FunctionMultipleVariable fn) {
         // Measure error and calculate tolerance
 
         // Use RK4 and RK5 error is less than tolerance
@@ -85,13 +88,13 @@ public class SVC {
     }
 
     // COMPLETE
-    public final static double differentiate(final double val, Function fn) {
+    public static double differentiate(final double val, final FunctionSingleVariable fn) {
         return (fn.function(val + stepSize) - fn.function(val - stepSize)) / (2.0 * stepSize);
     }
 
 
-    // COMPLETE
-    double differentiate(double val, int order, Function fn) {
+    // PROBLEM
+    public static double differentiate(final double val, int order, final FunctionSingleVariable fn) {
         if (order <= 0) {
             throw new IllegalArgumentException("The order is less than or equal to 0");
         } else if (order == 1) {
@@ -116,11 +119,11 @@ public class SVC {
     }
 
     // INCOMPLETE
-    double df(final double valX, final double valY, final double step, Function fn) {
+    public static double df(final double valX, final double valY, final double step, FunctionMultipleVariable fn) {
         return (fn.function(valX - step, valY) + fn.function(valX, valY - step)) * (step * 2.0);
     }
 
-    double integrate(final double start, final double end, Function fn) {
+    public static double integrate(final double start, final double end, FunctionSingleVariable fn) {
 
         double ar = 0.0, x1 = start, x2 = start + stepSize;
         while (x2 < end) {
@@ -136,7 +139,7 @@ public class SVC {
         return ar;
     }
 
-    int factorial(final int num) {
+    public static int factorial(final int num) {
         if (num<0) throw new IllegalArgumentException("The number is less than 0");
         if (num > 20) throw new IllegalArgumentException("The number can cause overflow");
 
@@ -151,36 +154,23 @@ public class SVC {
         return result;
     }
 
-    /*
+    public static double[] taylor(final FunctionSingleVariable fn, final double point, final int order) {
+        double[] coefficients = new double[order+1];
+        coefficients[0] = fn.function(point);
 
-// INCOMPLETE
-    double*
-
-    Taylor(double val, int order, double (*function)(double))
-
-    {
-        //
-        double *tlr;
-        tlr = ( double*)malloc(order * sizeof( double));
-        return NULL;
-    }
-
-
-    // INCOMPLETE
-    void print_taylor(double val, int order, double (*function)(double)) {
-        //
-        for (int i = 0; i < order; i++) {
-            std::cout << "((x^" << i << ")/" << differentiate(val, i, function) / factorial(i) << ")" << std::endl;
+        double factorial = 1.0;
+        for (int ordersCalculated = 1; ordersCalculated <= order; ordersCalculated++) {
+            factorial *= ordersCalculated;
+            coefficients[ordersCalculated] = differentiate(point, ordersCalculated, fn) / factorial;
         }
-
+        return coefficients;
     }
 
-
-    // INCOMPLETE
-    double Taylor_eval() {
-        return 0;
+    public static double[] mcLurian(final FunctionSingleVariable fn, final int order) {
+        return taylor(fn, 0.0, order);
     }
 
+    /*
 
 // INCOMPLETE
     double*
