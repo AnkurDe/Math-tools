@@ -1,9 +1,9 @@
-package Matrix;
+package Matrix.TestCases;
 
 // For taking row reduced the echelon form
 
-import static Matrix.Copy.copy;
-import static Matrix.PrintMatrix.printMat;
+
+import static Matrix.Operations.*;
 
 /**
  * RREF provides a static method to compute the Row Reduced Echelon Form (RREF) of a matrix.
@@ -19,54 +19,6 @@ import static Matrix.PrintMatrix.printMat;
  * - copy: Deep-copies a matrix to avoid mutating test data.
  */
 final public class RREF {
-    /**
-     * Computes the Row Reduced Echelon Form (RREF) of the given matrix in-place.
-     * @param matrix The matrix to reduce (will be modified).
-     * @return The RREF of the matrix.
-     */
-    public static double[][] rref(double[][] matrix) {
-        int rows = matrix.length;
-        int cols = matrix[0].length;
-
-        int lead = 0;
-
-        for (int r = 0; r < rows; r++) {
-            if (lead >= cols) break;
-            int i = r;
-            while (matrix[i][lead] == 0) {
-                i++;
-                if (i == rows) {
-                    i = r;
-                    lead++;
-                    if (lead == cols) return matrix;
-                }
-            }
-
-            // Swap rows i and r
-            double[] temp = matrix[i];
-            matrix[i] = matrix[r];
-            matrix[r] = temp;
-
-            // Normalize the row by making the lead element 1
-            double leadValue = matrix[r][lead];
-            for (int j = 0; j < cols; j++) {
-                matrix[r][j] /= leadValue;
-            }
-
-            // Eliminate all other entries in the lead column
-            for (int k = 0; k < rows; k++) {
-                if (k != r) {
-                    double factor = matrix[k][lead];
-                    for (int j = 0; j < cols; j++) {
-                        matrix[k][j] -= factor * matrix[r][j];
-                    }
-                }
-            }
-            lead++;
-        }
-        return matrix;
-    }
-
 
     /**
      * Demonstrates the rref function with several test cases.

@@ -1,18 +1,11 @@
-package Matrix;
+package Matrix.TestCases;
 
-import static Matrix.PrintMatrix.printMat;
+import static Matrix.Operations.printMat;
+import static Matrix.Operations.transpose;
 
 // Transpose of matrix
 // COMPLETE
 final public class Transpose {
-    public static double[][] transpose(double[][] input) {
-        double[][] result = new double[input[0].length][input.length];
-        for (int i = 0; i < input.length; i++)
-            for (int j = 0; j < input[0].length; j++)
-                result[j][i] = input[i][j];
-        return result;
-    }
-
     // Test cases for transpose function
     public static void main(String[] args) {
         // Test 1: 2x2 matrix

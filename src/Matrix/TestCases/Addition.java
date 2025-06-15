@@ -1,27 +1,11 @@
-package Matrix;
+package Matrix.TestCases;
 
-import static Matrix.PrintMatrix.printMat;
+import static Matrix.Operations.addition;
+import static Matrix.Operations.printMat;
 
 // For performing Addition
 final public class Addition {
-    public static double[][] addition(double[][] A, double[][] B) {
 
-        if (A.length != B.length) {
-            throw new MatrixCorruptException("Mismatch in number of rows of matrices");
-        }
-        if (A[0].length != B[0].length){
-            throw new MatrixCorruptException("Mismatch in number of columns of matrices");
-        }
-
-        double[][] Sum = new double[A.length][A[0].length];
-
-        for (int i = 0; i < A.length; i++) {
-            for (int j = 0; j < A.length; j++) {
-                Sum[i][j] = A[i][j] + B[i][j];
-            }
-        }
-        return Sum;
-    }
 
     public static void main(String[] args) {
         // Test 1: Correct addition

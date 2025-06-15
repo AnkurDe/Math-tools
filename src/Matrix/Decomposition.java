@@ -1,10 +1,10 @@
 package Matrix;
 
-import static Matrix.GramSchmidtOrthogonalization.GSO;
-import static Matrix.Multiplication.multiply;
-import static Matrix.PrintMatrix.printMat;
-import static Matrix.Transpose.transpose;
-import static Matrix.Eigen.eig;
+
+import static Matrix.Operations.*;
+import static Matrix.Operations.GSO;
+import static Matrix.Operations.multiply;
+import static Matrix.Operations.transpose;
 
 public class Decomposition {
     public static double[][][] svd(double[][] A) {
@@ -130,7 +130,7 @@ public class Decomposition {
         return new double[][][]{U, Sigma, transpose(V_sorted)};
     }
 
-    public static double[][][] qr(double[][] matrix){
+    public static double[][][] qr(double[][] matrix) {
         double[][] Q = GSO(matrix);
         double[][] R = multiply(transpose(Q), matrix);
         return new double[][][]{Q, R};
@@ -164,9 +164,9 @@ public class Decomposition {
         return new double[][][]{L, U};
     }
 
-    /**
-     * Test cases for the svd function.
-     */
+/**
+ * Test cases for the svd function.
+ */
 //    public static void main(String[] args) {
 //        double[][][] testMatrices = {
 //            {
