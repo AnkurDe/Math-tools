@@ -1,7 +1,7 @@
 package Matrix;
 
-import static Matrix.MatrixCorruptException.Decomposition.lu;
-import static Matrix.MatrixCorruptException.Decomposition.qr;
+import static Matrix.Decomposition.lu;
+import static Matrix.Decomposition.qr;
 import static Vector.Dot.dot;
 import static Vector.Normalize.normalise;
 import static java.lang.Math.min;
