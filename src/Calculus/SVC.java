@@ -3,7 +3,7 @@ package Calculus;
 import static java.lang.Math.abs;
 import static java.lang.Math.min;
 
-public class SVC {
+final public class SVC {
     // Method to perform Runge-Kutta method order 4
     public static double stepSize = 0.000001;
     public static double tolerance = 0.000001;
@@ -17,7 +17,7 @@ public class SVC {
     // y0 is initial value
     // t is final time
     // fn is the function to be solved
-    public final static double RK4(double t0, double y0, double t, Function fn) {
+    public final static double RK4(double t0, double y0, double t, FunctionMultipleVariable fn) {
         double y = y0;
         while (t0 < t) {
             double k1 = fn.function(t0, y);
@@ -36,7 +36,7 @@ public class SVC {
     // y0 is initial value
     // t is final time
     // fn is the function to be solved
-    public final static double RK5(double t0, double y0, double t, Function fn) {
+    public final static double RK5(double t0, double y0, double t, FunctionMultipleVariable fn) {
         double step = stepSize;
         int n = (int) ((t - t0) / step);
 
@@ -71,7 +71,7 @@ public class SVC {
 
     // INCOMPLETE
     // Uses either of RK4 or RK5 method based on accuracy difference
-    public final static double ode45(double t0, double y0, double t, Function fn) {
+    public final static double ode45(double t0, double y0, double t, FunctionMultipleVariable fn) {
         // Measure error and calculate tolerance
 
         // Use RK4 and RK5 error is less than tolerance
@@ -85,13 +85,13 @@ public class SVC {
     }
 
     // COMPLETE
-    public final static double differentiate(final double val, Function fn) {
+    public final static double differentiate(final double val, FunctionSingleVariable fn) {
         return (fn.function(val + stepSize) - fn.function(val - stepSize)) / (2.0 * stepSize);
     }
 
 
     // COMPLETE
-    double differentiate(double val, int order, Function fn) {
+    double differentiate(double val, int order, FunctionSingleVariable fn) {
         if (order <= 0) {
             throw new IllegalArgumentException("The order is less than or equal to 0");
         } else if (order == 1) {
@@ -116,11 +116,11 @@ public class SVC {
     }
 
     // INCOMPLETE
-    double df(final double valX, final double valY, final double step, Function fn) {
+    double df(final double valX, final double valY, final double step, FunctionMultipleVariable fn) {
         return (fn.function(valX - step, valY) + fn.function(valX, valY - step)) * (step * 2.0);
     }
 
-    double integrate(final double start, final double end, Function fn) {
+    double integrate(final double start, final double end, FunctionSingleVariable fn) {
 
         double ar = 0.0, x1 = start, x2 = start + stepSize;
         while (x2 < end) {
