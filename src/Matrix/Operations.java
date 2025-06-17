@@ -10,10 +10,10 @@ public class Operations {
     public static double[][] addition(double[][] A, double[][] B) {
 
         if (A.length != B.length) {
-            throw new MatrixCorruptException("Mismatch in number of rows of matrices");
+            throw new DimensionErrorException("Mismatch in number of rows of matrices");
         }
         if (A[0].length != B[0].length){
-            throw new MatrixCorruptException("Mismatch in number of columns of matrices");
+            throw new DimensionErrorException("Mismatch in number of columns of matrices");
         }
 
         double[][] Sum = new double[A.length][A[0].length];
@@ -387,10 +387,10 @@ public class Operations {
     public static double[][] subtract(double[][] A, double[][] B) {
 
         if (A.length != B.length) {
-            throw new MatrixCorruptException("Mismatch in number of rows of matrices");
+            throw new DimensionErrorException("Mismatch in number of rows of matrices");
         }
         if (A[0].length != B[0].length){
-            throw new MatrixCorruptException("Mismatch in number of columns of matrices");
+            throw new DimensionErrorException("Mismatch in number of columns of matrices");
         }
 
         double[][] Subtract = new double[A.length][A.length];
