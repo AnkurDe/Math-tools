@@ -1,7 +1,5 @@
 package Matrix.TestCases;
 
-import Matrix.Operations;
-
 import static Matrix.Operations.eye;
 import static Matrix.Operations.printMat;
 
