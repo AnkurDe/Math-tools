@@ -2,8 +2,10 @@ package Matrix.TestCases;
 
 import Matrix.MatrixError;
 
-import static Matrix.Operations.*;
-
+import static Matrix.Operations.multiply;
+import static Matrix.Operations.printMat;
+import static Matrix.Operations.eig;
+import static Matrix.Operations.transpose;
 /**
  * Utility class for calculating eigenvalues and eigenvectors of a square matrix using the QR algorithm.
  *

@@ -46,7 +46,7 @@ final public class Addition {
             addition(A, D);
         } catch (Exception e) {
             System.out.println("Caught exception: " + e.getMessage());
-            // Expected: Mismatch in number of columns of matrices
+            // Expected: Mismatch in the number of columns of matrices
         }
     }
 }
