@@ -5,7 +5,42 @@ import static Matrix.Operations.multiply;
 import static Matrix.Operations.transpose;
 import static Matrix.Operations.eig;
 
+/**
+ * The Decomposition class provides static methods for various matrix decompositions,
+ * including Singular Value Decomposition (SVD), QR Decomposition, LU Decomposition,
+ * and Polar Decomposition. These decompositions are fundamental in numerical linear algebra
+ * and have applications in solving systems of equations, matrix inversion, and more.
+ *
+ * <p>
+ * Each method returns the decomposition in the form of arrays of matrices.
+ * </p>
+ */
 public class Decomposition {
+
+    /**
+     * Computes the Singular Value Decomposition (SVD) of a matrix.
+     * <p>
+     * SVD factorizes a matrix A into three matrices: U, Sigma, and V^T such that:
+     * A = U * Sigma * V^T
+     * where:
+     * <ul>
+     *   <li>U is an m x m orthogonal matrix (left singular vectors)</li>
+     *   <li>Sigma is an m x n diagonal matrix with non-negative real numbers (singular values)</li>
+     *   <li>V^T is the transpose of an n x n orthogonal matrix (right singular vectors)</li>
+     * </ul>
+     * <b>Algorithm Steps:</b>
+     * <ol>
+     *   <li>Compute A^T * A and its eigen-decomposition to get V and singular values.</li>
+     *   <li>Sort eigenvalues and corresponding eigenvectors in descending order.</li>
+     *   <li>Compute singular values as the square roots of eigenvalues.</li>
+     *   <li>Compute U as U = A * V * S^(-1) for non-zero singular values.</li>
+     *   <li>Complete U to an orthogonal matrix if necessary (using Gram-Schmidt).</li>
+     *   <li>Adjust signs for consistency.</li>
+     * </ol>
+     *
+     * @param matrix The input m x n matrix.
+     * @return An array of three matrices: {U, Sigma, V^T}.
+     */
     public static double[][][] svd(double[][] matrix) {
         // SVD: matrix = U * S * V^T
         int m = matrix.length;      // number of rows
@@ -126,12 +161,51 @@ public class Decomposition {
         return new double[][][]{U, Sigma, transpose(V_sorted)};
     }
 
+    /**
+     * Computes the QR Decomposition of a matrix.
+     * <p>
+     * QR factorizes a matrix A into Q and R such that:
+     * A = Q * R
+     * where:
+     * <ul>
+     *   <li>Q is an orthogonal matrix (columns are orthonormal)</li>
+     *   <li>R is an upper triangular matrix</li>
+     * </ul>
+     * <b>Algorithm Steps:</b>
+     * <ol>
+     *   <li>Apply Gram-Schmidt Orthogonalization (GSO) to obtain Q.</li>
+     *   <li>Compute R as Q^T * A.</li>
+     * </ol>
+     *
+     * @param matrix The input matrix.
+     * @return An array of two matrices: {Q, R}.
+     */
     public static double[][][] qr(double[][] matrix) {
         double[][] Q = GSO(matrix);
         double[][] R = multiply(transpose(Q), matrix);
         return new double[][][]{Q, R};
     }
 
+    /**
+     * Computes the LU Decomposition of a square matrix.
+     * <p>
+     * LU factorizes a matrix A into L and U such that:
+     * A = L * U
+     * where:
+     * <ul>
+     *   <li>L is a lower triangular matrix with unit diagonal</li>
+     *   <li>U is an upper triangular matrix</li>
+     * </ul>
+     * <b>Algorithm Steps:</b>
+     * <ol>
+     *   <li>Initialize L as the identity matrix and U as a copy of A.</li>
+     *   <li>For each column, eliminate entries below the diagonal using Gaussian elimination.</li>
+     *   <li>Store multipliers in L and update U accordingly.</li>
+     * </ol>
+     *
+     * @param matrix The input square matrix.
+     * @return An array of two matrices: {L, U}.
+     */
     public static double[][][] lu(double[][] matrix) {
         int n = matrix.length;
         double[][] L = new double[n][n];
@@ -160,6 +234,26 @@ public class Decomposition {
         return new double[][][]{L, U};
     }
 
+    /**
+     * Computes the Polar Decomposition of a matrix.
+     * <p>
+     * Polar decomposition factorizes a matrix A into:
+     * A = U * P
+     * where:
+     * <ul>
+     *   <li>U is a unitary (orthogonal for real matrices) matrix</li>
+     *   <li>P is a positive semidefinite Hermitian matrix</li>
+     * </ul>
+     * <b>Algorithm Steps:</b>
+     * <ol>
+     *   <li>Compute the SVD: A = W * S * V^T</li>
+     *   <li>Set U = W * V^T</li>
+     *   <li>Set P = V * S * V^T</li>
+     * </ol>
+     *
+     * @param matrix The input matrix.
+     * @return An array of two matrices: {U, P}.
+     */
     public static double[][][] polar(double[][] matrix) {
         // A = UP where U is unitary/orthogonal and P is positive semidefinite
         // Using SVD: A = WSV^T

@@ -1,15 +1,38 @@
 package Matrix;
 
-import Vector.TestCases.Scale;
-import Vector.TestCases.Subtraction;
-
 import static Matrix.Decomposition.lu;
 import static Matrix.Decomposition.qr;
 import static Vector.Operations.dot;
 import static Vector.Operations.normalise;
 import static java.lang.Math.min;
 
+/**
+ * The Operations class provides a comprehensive set of static methods for performing
+ * various matrix operations, including addition, multiplication, inversion, decomposition,
+ * eigenvalue computation, and more. These utilities are fundamental for linear algebra
+ * computations and are used throughout the library.
+ *
+ * <p>
+ * Methods include:
+ * <ul>
+ *   <li>Matrix addition, subtraction, and scaling</li>
+ *   <li>Matrix multiplication and transposition</li>
+ *   <li>Matrix inversion (Gauss-Jordan), determinant (LU), and pseudoinverse</li>
+ *   <li>Gram-Schmidt orthonormalization (GSO)</li>
+ *   <li>Eigenvalue and eigenvector computation (QR algorithm)</li>
+ *   <li>Row Reduced Echelon Form (RREF)</li>
+ *   <li>Utility methods for identity, zero matrices, and printing</li>
+ * </ul>
+ * </p>
+ */
 public class Operations {
+    /**
+     * Adds two matrices element-wise.
+     * @param A First matrix.
+     * @param B Second matrix.
+     * @return The sum matrix.
+     * @throws DimensionErrorException if dimensions do not match.
+     */
     public static double[][] addition(double[][] A, double[][] B) {
 
         if (A.length != B.length) {
@@ -29,6 +52,13 @@ public class Operations {
         return Sum;
     }
 
+    /**
+     * Augments two matrices either by rows or columns.
+     * @param A First matrix.
+     * @param B Second matrix.
+     * @param operation 'R' for row-wise, 'C' for column-wise augmentation.
+     * @return The augmented matrix.
+     */
     public static double[][] aug(double[][] A, double[][] B, char operation) {
         if (Character.toUpperCase(operation) == 'R') {
             return augRow(A, B);
@@ -39,7 +69,12 @@ public class Operations {
         }
     }
 
-    // Augment to column side A|B
+    /**
+     * Augments two matrices by columns (side-by-side).
+     * @param A First matrix.
+     * @param B Second matrix.
+     * @return Augmented matrix.
+     */
     public static double[][] augRow(double[][] A, double[][] B) {
         if (A.length != B.length) {
             throw new MatrixError("Number of rows of both matrices must be equal");
@@ -52,6 +87,12 @@ public class Operations {
         return result;
     }
 
+    /**
+     * Augments two matrices by rows (stacked vertically).
+     * @param A First matrix.
+     * @param B Second matrix.
+     * @return Augmented matrix.
+     */
     public static double[][] augCol(double[][] A, double[][] B) {
         if (A[0].length != B[0].length) {
             throw new MatrixError("Number of columns of both matrices must be equal");
@@ -79,7 +120,12 @@ public class Operations {
         return out;
     }
 
-    // To calculate the determinant of a matrix by LU decomposition
+    /**
+     * Computes the determinant of a square matrix using LU decomposition.
+     * @param matrix The input square matrix.
+     * @return The determinant value.
+     * @throws MatrixError if the matrix is not square.
+     */
     public static double det(double[][] matrix) {
         if (!isSquare(matrix)){
             throw new MatrixError("Not a square matrix");
@@ -91,12 +137,8 @@ public class Operations {
     /**
      * Returns a matrix with only the diagonal elements of the input matrix.
      * All off-diagonal elements are set to zero.
-     *
      * @param matrix The input 2D array.
      * @return A matrix of the same size with only diagonal elements retained.
-     * Example:
-     * Input: [[1, 2], [3, 4]]
-     * Output: [[1, 0], [0, 4]]
      */
     public static double[][] diag(double[][] matrix) {
         // Create a zero matrix of the same size as input
@@ -108,6 +150,11 @@ public class Operations {
         return A;
     }
 
+    /**
+     * Computes the product of the diagonal elements of a matrix.
+     * @param matrix The input matrix.
+     * @return Product of diagonal elements.
+     */
     public static double diag_prod(double[][] matrix) {
         double dp = 1;
         for (int i = 0; i < matrix.length && i < matrix[0].length; i++) {
@@ -116,6 +163,12 @@ public class Operations {
         return dp;
     }
 
+    /**
+     * Performs Gram-Schmidt Orthonormalization (GSO) on the columns of matrix A.
+     * Produces an orthonormal basis for the column space.
+     * @param A The input matrix.
+     * @return Matrix Q with orthonormal columns.
+     */
     // Main method: Gram-Schmidt Orthonormalization
     public static double[][] GSO(double[][] A) {
         int rows = A.length;
@@ -143,7 +196,6 @@ public class Operations {
 
     /**
      * Computes the eigenvectors and eigenvalues of a square matrix using the QR algorithm.
-     *
      * @param matrix The input square matrix.
      * @return A 3D array: [0] = eigenvectors (columns), [1] = eigenvalues in diagonal matrix form.
      * @throws MatrixError if the input is not a square matrix.
@@ -155,7 +207,6 @@ public class Operations {
     /**
      * Computes the eigenvectors and eigenvalues of a square matrix using the QR algorithm,
      * with a specified maximum number of iterations.
-     *
      * @param matrix The input square matrix.
      * @param iterations The maximum number of QR iterations to perform.
      * @return A 3D array: [0] = eigenvectors (columns), [1] = eigenvalues in diagonal matrix form.
@@ -200,7 +251,6 @@ public class Operations {
         // Return [eigenvectors (columns) | eigenvalues (diagonal matrix)]
         return new double[][][]{QQ, diag(Ak)};
     }
-
 
     /**
      * Computes the inverse of a square matrix using the Gauss-Jordan elimination method.
@@ -263,6 +313,12 @@ public class Operations {
         return inverse;
     }
 
+    /**
+     * Computes the right inverse of a matrix (for full row rank, m <= n).
+     * @param matrix The input matrix.
+     * @return The right inverse.
+     * @throws MatrixError if the right inverse does not exist.
+     */
     public static double[][] rightInv(double[][] matrix){
         try{
             return multiply(transpose(matrix), inv(multiply(matrix, transpose(matrix))));
@@ -271,6 +327,12 @@ public class Operations {
         }
     }
 
+    /**
+     * Computes the left inverse of a matrix (for full column rank, m >= n).
+     * @param matrix The input matrix.
+     * @return The left inverse.
+     * @throws MatrixError if the left inverse does not exist.
+     */
     public static double[][] leftInv(double[][] matrix){
         try {
             return multiply(inv(multiply(transpose(matrix), matrix)),transpose(matrix));
@@ -281,10 +343,8 @@ public class Operations {
 
     /**
      * Computes the Moore-Penrose pseudoinverse for full row or full column rank matrices.
-     * For full row rank (rows <= cols): returns right inverse.
-     * For full column rank (rows >= cols): returns left inverse.
-     * For general matrices (including rank-deficient), a full SVD-based pseudoinverse is required.
-     * @param matrix The matrix to pseudoinvert.
+     * For general matrices, a full SVD-based pseudoinverse is required.
+     * @param matrix The matrix to pseudoinverted.
      * @return The pseudoinverse matrix.
      */
     public static double[][] pinv(double[][] matrix){
@@ -297,10 +357,21 @@ public class Operations {
         }
     }
 
+    /**
+     * Generates an identity matrix of the same size as the input matrix.
+     * @param matrix The reference matrix.
+     * @return Identity matrix.
+     */
     public static double[][] eye(double[][] matrix) {
         return eye(matrix.length, matrix[0].length);
     }
 
+    /**
+     * Generates an identity matrix of specified rows and columns.
+     * @param rows Number of rows.
+     * @param cols Number of columns.
+     * @return Identity matrix.
+     */
     public static double[][] eye(int rows, int cols) {
         double[][] identity = new double[rows][cols];
         for (int i = 0; i < rows && i < cols; i++) {
@@ -309,11 +380,23 @@ public class Operations {
         return identity;
     }
 
+    /**
+     * Generates a square identity matrix of size n.
+     * @param n Size of the matrix.
+     * @return Identity matrix.
+     */
     public static double[][] eye(int n) {
         return eye(n, n);
     }
 
-    // To check convergence of matrices
+    /**
+     * Checks if two matrices are element-wise within a given tolerance.
+     * Used for convergence checks in iterative algorithms.
+     * @param A First matrix.
+     * @param B Second matrix.
+     * @param tolerance Allowed difference.
+     * @return True if all elements are within tolerance.
+     */
     public static boolean isConverged(double[][] A, double[][] B, double tolerance) {
         int n = A.length;
         int m = A[0].length;
@@ -328,10 +411,22 @@ public class Operations {
         return true;  // All elements are within tolerance → Converged
     }
 
+    /**
+     * Checks if a matrix is square (rows == columns).
+     * @param input The matrix to check.
+     * @return True if square.
+     */
     public static boolean isSquare(double[][] input) {
         return input.length == input[0].length;
     }
 
+    /**
+     * Multiplies two matrices.
+     * @param A First matrix.
+     * @param B Second matrix.
+     * @return Product matrix.
+     * @throws DimensionErrorException if dimensions are incompatible.
+     */
     public static double[][] multiply(double[][] A, double[][] B) {
         // Correct dimension check: columns of A == rows of B
         if (A[0].length != B.length) {
@@ -351,6 +446,10 @@ public class Operations {
         return result;
     }
 
+    /**
+     * Prints a matrix with aligned columns and formatted numbers.
+     * @param matrix The matrix to print.
+     */
     // Improved printMat: aligns columns and formats numbers
     public static void printMat(double[][] matrix) {
         if (matrix == null || matrix.length == 0) {
@@ -360,7 +459,7 @@ public class Operations {
         int cols = matrix[0].length;
         int[] colWidths = new int[cols];
 
-        // Calculate max width for each column
+        // Calculate the max width for each column
         for (double[] row : matrix) {
             for (int j = 0; j < cols; j++) {
                 String formatted = String.format("%.4f", row[j]);
@@ -378,6 +477,12 @@ public class Operations {
         }
     }
 
+    /**
+     * Scales all elements of a matrix by a scalar value.
+     * @param scale The scaling factor.
+     * @param matrix The matrix to scale.
+     * @return The scaled matrix.
+     */
     public static double[][] scale(double scale, double[][] matrix) {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {
@@ -387,6 +492,13 @@ public class Operations {
         return matrix.clone();
     }
 
+    /**
+     * Subtracts matrix B from matrix A element-wise.
+     * @param A First matrix.
+     * @param B Second matrix.
+     * @return The difference matrix.
+     * @throws DimensionErrorException if dimensions do not match.
+     */
     public static double[][] subtract(double[][] A, double[][] B) {
 
         if (A.length != B.length) {
@@ -403,6 +515,11 @@ public class Operations {
         return Subtract;
     }
 
+    /**
+     * Transposes a matrix (rows become columns).
+     * @param input The matrix to transpose.
+     * @return The transposed matrix.
+     */
     public static double[][] transpose(double[][] input) {
         double[][] result = new double[input[0].length][input.length];
         for (int i = 0; i < input.length; i++)
@@ -411,13 +528,21 @@ public class Operations {
         return result;
     }
 
-    // Inputs a matrix and returns a zero matrix of the same size
+    /**
+     * Returns a zero matrix of the same size as the input.
+     * @param input Reference matrix.
+     * @return Zero matrix.
+     */
     public static double[][] zeros(double[][] input) {
         return zeros(input.length, input[0].length);
-    }//Tested ok
+    }
 
-
-    // Inputs the number of rows and columns and returns a zero matrix of that size
+    /**
+     * Returns a zero matrix of specified size.
+     * @param rows Number of rows.
+     * @param cols Number of columns.
+     * @return Zero matrix.
+     */
     public static double[][] zeros(int rows, int cols) {
         double[][] result = new double[rows][cols];
         for (int i = 0; i < rows; i++) {
@@ -428,13 +553,18 @@ public class Operations {
         return result;
     }
 
-    // Inputs the size of a square matrix and returns a zero matrix of that size
+    /**
+     * Returns a square zero matrix of a specified size.
+     * @param size Size of the matrix.
+     * @return Zero matrix.
+     */
     public static double[][] zeros(int size) {
         return zeros(size, size);
     }
 
     /**
      * Computes the Row Reduced Echelon Form (RREF) of the given matrix in-place.
+     * Uses Gauss-Jordan elimination.
      * @param matrix The matrix to reduce (will be modified).
      * @return The RREF of the matrix.
      */
@@ -461,7 +591,7 @@ public class Operations {
             matrix[i] = matrix[r];
             matrix[r] = temp;
 
-            // Normalize the row by making the lead element 1
+            // Normalize the row by making lead element 1
             double leadValue = matrix[r][lead];
             for (int j = 0; j < cols; j++) {
                 matrix[r][j] /= leadValue;
