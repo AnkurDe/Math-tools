@@ -1,23 +1,22 @@
 package Matrix;
 
-
-import static Matrix.Operations.*;
 import static Matrix.Operations.GSO;
 import static Matrix.Operations.multiply;
 import static Matrix.Operations.transpose;
+import static Matrix.Operations.eig;
 
 public class Decomposition {
-    public static double[][][] svd(double[][] A) {
-        // SVD: A = U * S * V^T
-        int m = A.length;      // number of rows
-        int n = A[0].length;   // number of columns
+    public static double[][][] svd(double[][] matrix) {
+        // SVD: matrix = U * S * V^T
+        int m = matrix.length;      // number of rows
+        int n = matrix[0].length;   // number of columns
         int minDim = Math.min(m, n);
 
-        // 1. Compute A^T * A and A * A^T
-        double[][] At = transpose(A);
-        double[][] AtA = multiply(At, A);  // n x n matrix
+        // 1. Compute matrix^T * matrix and matrix * matrix^T
+        double[][] At = transpose(matrix);
+        double[][] AtA = multiply(At, matrix);  // n x n matrix
 
-        // 2. Eigen-decompose A^T*A for V and eigenvalues
+        // 2. Eigen-decompose matrix^T*matrix for V and eigenvalues
         double[][][] eigV = eig(AtA);
         double[][] V = eigV[0];           // n x n eigenvectors
         double[][] eigenvaluesV = eigV[1]; // n x n diagonal matrix of eigenvalues
@@ -52,27 +51,27 @@ public class Decomposition {
             }
         }
 
-        // 5. Compute U using U = A * V * S^(-1) for non-zero singular values
+        // 5. Compute U using U = matrix * V * S^(-1) for non-zero singular values
         double[][] U = new double[m][m];
 
         // First compute the first minDim columns of U
         for (int i = 0; i < minDim; i++) {
             if (singularValues[i] > 1e-10) { // avoid division by very small numbers
-                // u_i = (1/sigma_i) * A * v_i
+                // u_i = (1/sigma_i) * matrix * v_i
                 double[] v_i = new double[n];
                 for (int j = 0; j < n; j++) {
                     v_i[j] = V_sorted[j][i];
                 }
 
-                // Compute A * v_i
+                // Compute matrix * v_i
                 double[] Av_i = new double[m];
                 for (int j = 0; j < m; j++) {
                     for (int k = 0; k < n; k++) {
-                        Av_i[j] += A[j][k] * v_i[k];
+                        Av_i[j] += matrix[j][k] * v_i[k];
                     }
                 }
 
-                // u_i = (1/sigma_i) * A * v_i
+                // u_i = (1/sigma_i) * matrix * v_i
                 for (int j = 0; j < m; j++) {
                     U[j][i] = Av_i[j] / singularValues[i];
                 }
@@ -98,7 +97,6 @@ public class Decomposition {
             U = GSO(U);
         }
 
-        // 6. Ensure consistent signs (make first non-zero element of each column positive)
         for (int i = 0; i < minDim; i++) {
             // Find first non-zero element in U column
             int firstNonZero = -1;
@@ -120,13 +118,11 @@ public class Decomposition {
             }
         }
 
-        // 7. Build Sigma matrix (m x n)
         double[][] Sigma = new double[m][n];
         for (int i = 0; i < minDim; i++) {
             Sigma[i][i] = singularValues[i];
         }
 
-        // 8. Return U, Sigma, V^T
         return new double[][][]{U, Sigma, transpose(V_sorted)};
     }
 
@@ -136,8 +132,8 @@ public class Decomposition {
         return new double[][][]{Q, R};
     }
 
-    public static double[][][] lu(double[][] A) {
-        int n = A.length;
+    public static double[][][] lu(double[][] matrix) {
+        int n = matrix.length;
         double[][] L = new double[n][n];
         double[][] U = new double[n][n];
 
@@ -148,7 +144,7 @@ public class Decomposition {
                 } else {
                     L[i][j] = 0.0;
                 }
-                U[i][j] = A[i][j];
+                U[i][j] = matrix[i][j];
             }
         }
 
@@ -164,61 +160,22 @@ public class Decomposition {
         return new double[][][]{L, U};
     }
 
-/**
- * Test cases for the svd function.
- */
-//    public static void main(String[] args) {
-//        double[][][] testMatrices = {
-//            {
-//                {1, 0},
-//                {0, 1}
-//            },
-//            {
-//                {3, 1},
-//                {1, 3}
-//            },
-//            {
-//                {1, 2, 3},
-//                {4, 5, 6}
-//            },
-//            {
-//                {2, 4},
-//                {1, 3},
-//                {0, 0}
-//            }
-//        };
-//        String[] testNames = {
-//            "Test 1: 2x2 Identity Matrix",
-//            "Test 2: 2x2 Symmetric Matrix",
-//            "Test 3: 2x3 Rectangular Matrix",
-//            "Test 4: 3x2 Rectangular Matrix with Zero Row"
-//        };
-//
-//        for (int i = 0; i < testMatrices.length; i++) {
-//            System.out.println(testNames[i]);
-//            double[][] A = testMatrices[i];
-//            System.out.println("Input Matrix A:");
-//            printMat(A);
-//
-//            double[][][] svdResult = svd(A);
-//            double[][] U = svdResult[0];
-//            double[][] S = svdResult[1];
-//            double[][] Vt = svdResult[2];
-//
-//            System.out.println("U:");
-//            printMat(U);
-//            System.out.println("Sigma:");
-//            printMat(S);
-//            System.out.println("V^T:");
-//            printMat(Vt);
-//
-//            // Reconstruct A = U * S * V^T
-//            double[][] US = multiply(U, S);
-//            double[][] USVt = multiply(US, Vt);
-//            System.out.println("Reconstructed A (U * Sigma * V^T):");
-//            printMat(USVt);
-//
-//            System.out.println("=====================================");
-//        }
-//    }
+    public static double[][][] polar(double[][] matrix) {
+        // A = UP where U is unitary/orthogonal and P is positive semidefinite
+        // Using SVD: A = WSV^T
+        // Then U = WV^T and P = VSV^T
+        double[][][] svd = svd(matrix);
+        double[][] W = svd[0];
+        double[][] S = svd[1];
+        double[][] Vt = svd[2];
+        double[][] V = transpose(Vt);
+
+        // Calculate U = WV^T
+        double[][] U = multiply(W, Vt);
+
+        // Calculate P = VSV^T
+        double[][] P = multiply(multiply(V, S), Vt);
+
+        return new double[][][] {U, P};
+    }
 }

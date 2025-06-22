@@ -1,9 +1,12 @@
 package Matrix;
 
+import Vector.TestCases.Scale;
+import Vector.TestCases.Subtraction;
+
 import static Matrix.Decomposition.lu;
 import static Matrix.Decomposition.qr;
-import static Vector.Dot.dot;
-import static Vector.Normalize.normalise;
+import static Vector.Operations.dot;
+import static Vector.Operations.normalise;
 import static java.lang.Math.min;
 
 public class Operations {
@@ -127,8 +130,8 @@ public class Operations {
                 double[] qk = new double[rows];
                 for (int i = 0; i < rows; i++) qk[i] = Q[i][k];
                 double dotProd = dot(qk, v);
-                double[] proj = Vector.Scale.scale(qk,dotProd);
-                v = Vector.Subtraction.subtract(v, proj);
+                double[] proj = Vector.Operations.scale(qk,dotProd);
+                v = Vector.Operations.subtract(v, proj);
             }
 
             double[] qj = normalise(v);

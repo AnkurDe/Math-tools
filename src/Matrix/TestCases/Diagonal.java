@@ -1,6 +1,7 @@
 package Matrix.TestCases;
 
 import static Matrix.Operations.diag;
+import static Matrix.Operations.printMat;
 
 /**
  * Utility class for extracting the diagonal of a matrix.
@@ -8,13 +9,6 @@ import static Matrix.Operations.diag;
 public class Diagonal {
  // test cases for diag function
     public static void main(String[] args) {
-        // Helper to print matrices
-        java.util.function.Consumer<double[][]> printMat = m -> {
-            for (double[] row : m) {
-                for (double v : row) System.out.print(v + " ");
-                System.out.println();
-            }
-        };
 
         // Test 1: Square matrix
         double[][] mat1 = {
@@ -23,9 +17,9 @@ public class Diagonal {
         };
         System.out.println("Test 1: Square matrix");
         System.out.println("Input:");
-        printMat.accept(mat1);
+        printMat(mat1);
         System.out.println("Output:");
-        printMat.accept(diag(mat1));
+        printMat(diag(mat1));
         // Expected: [1, 0]
         //           [0, 4]
         System.out.println();
@@ -38,9 +32,9 @@ public class Diagonal {
         };
         System.out.println("Test 2: Rectangular matrix (more rows)");
         System.out.println("Input:");
-        printMat.accept(mat2);
+        printMat(mat2);
         System.out.println("Output:");
-        printMat.accept(diag(mat2));
+        printMat(diag(mat2));
         // Expected: [5, 0]
         //           [0, 8]
         //           [0, 0]
@@ -53,9 +47,9 @@ public class Diagonal {
         };
         System.out.println("Test 3: Rectangular matrix (more columns)");
         System.out.println("Input:");
-        printMat.accept(mat3);
+        printMat(mat3);
         System.out.println("Output:");
-        printMat.accept(diag(mat3));
+        printMat(diag(mat3));
         // Expected: [11, 0, 0]
         //           [0, 15, 0]
         System.out.println();
@@ -66,9 +60,9 @@ public class Diagonal {
         };
         System.out.println("Test 4: 1x1 matrix");
         System.out.println("Input:");
-        printMat.accept(mat4);
+        printMat(mat4);
         System.out.println("Output:");
-        printMat.accept(diag(mat4));
+        printMat(diag(mat4));
         // Expected: [42]
         System.out.println();
 
@@ -79,9 +73,9 @@ public class Diagonal {
         };
         System.out.println("Test 5: Zero matrix");
         System.out.println("Input:");
-        printMat.accept(mat5);
+        printMat(mat5);
         System.out.println("Output:");
-        printMat.accept(diag(mat5));
+        printMat(diag(mat5));
         // Expected: [0, 0]
         //           [0, 0]
         System.out.println();
