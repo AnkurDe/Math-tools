@@ -1,0 +1,6 @@
+git checkout resolve-bugs
+git fetch origin
+git rebase origin/master
+
+git checkout master
+git merge resolve-bugs
